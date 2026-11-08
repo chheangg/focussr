@@ -1,7 +1,7 @@
 {
   "name": "focussr",
   "productName": "Focussr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An offline focus companion that attaches to any app or website and knows when you've actually finished reading.",
   "license": "MIT",
   "author": "chheangg",
