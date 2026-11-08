@@ -10,7 +10,17 @@ permissions:
   contents: write
 
 jobs:
+  # One job creates the draft first. If the builds each did it, they would race and make several.
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" --draft --generate-notes --verify-tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+
   build:
+    needs: prepare
     strategy:
       fail-fast: false
       matrix:
