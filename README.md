@@ -10,6 +10,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/chheangg/focussr/actions/workflows/ci.yml"><img src="https://github.com/chheangg/focussr/actions/workflows/ci.yml/badge.svg" alt="CI status" /></a>
   <img src="https://img.shields.io/badge/macOS-full%20support-black" alt="macOS: full support" />
   <img src="https://img.shields.io/badge/Windows%20%26%20Linux-time%20tracking-lightgrey" alt="Windows and Linux: time tracking" />
   <img src="https://img.shields.io/badge/works-offline-black" alt="Works offline" />
