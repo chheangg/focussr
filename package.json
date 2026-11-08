@@ -1,0 +1,93 @@
+{
+  "name": "focussr",
+  "productName": "Focussr",
+  "version": "0.1.0",
+  "description": "An offline focus companion that attaches to any app or website and knows when you've actually finished reading.",
+  "license": "MIT",
+  "author": "chheangg",
+  "repository": "github:chheangg/focussr",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "dev": "npm run sensor && electron-vite dev",
+    "build": "npm run sensor && electron-vite build",
+    "sensor": "node scripts/build-sensor.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "package": "npm run build && electron-builder --publish never",
+    "postinstall": "node node_modules/electron/install.js && node scripts/setup-vision.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "@mediapipe/tasks-vision": "1.2.2",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "chrono-node": "^2.7.7",
+    "lucide-react": "^1.70.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "electron": "45.2.3",
+    "electron-builder": "26.18.0",
+    "electron-vite": "6.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.0.0",
+    "vitest": "^3.2.0"
+  },
+  "build": {
+    "appId": "dev.focussr.app",
+    "productName": "Focussr",
+    "directories": {
+      "output": "dist",
+      "buildResources": "resources"
+    },
+    "files": [
+      "out/**"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/bin",
+        "to": "bin",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "icon": "resources/icon.png",
+      "identity": "-",
+      "extendInfo": {
+        "NSCameraUsageDescription": "Optional. Focussr estimates where you're looking to build a reading heat map. Video is processed on this Mac and never saved."
+      }
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "Office",
+      "icon": "resources/icon.png"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "draft"
+      }
+    ]
+  }
+}

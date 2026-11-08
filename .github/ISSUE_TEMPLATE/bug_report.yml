@@ -1,0 +1,23 @@
+name: Bug report
+description: Something isn't working
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: And what did you expect instead?
+    validations:
+      required: true
+  - type: input
+    id: app
+    attributes:
+      label: Which app or website were you attached to?
+      placeholder: Microsoft Word, Safari on example.com
+  - type: input
+    id: version
+    attributes:
+      label: Focussr version and operating system
+      placeholder: 0.1.0 on macOS 26
+    validations:
+      required: true
