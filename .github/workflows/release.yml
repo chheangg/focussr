@@ -27,6 +27,15 @@ jobs:
       - run: npm run build
         env:
           FOCUSSR_UNIVERSAL: '1'
-      - run: npx electron-builder --publish always
+      # GitHub's download server sometimes times out while fetching Electron.
+      - name: Package and upload
+        shell: bash
+        run: |
+          for attempt in 1 2 3 4 5; do
+            npx electron-builder --publish always && exit 0
+            echo "Packaging failed on attempt $attempt. Retrying..."
+            sleep $((attempt * 30))
+          done
+          exit 1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
