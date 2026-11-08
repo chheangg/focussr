@@ -10,18 +10,8 @@ if (process.platform !== 'darwin') {
 
 mkdirSync('resources/bin', { recursive: true })
 const output = 'resources/bin/focussr-sensor'
-const build = (arch, out) =>
-  execFileSync(
-    'swiftc',
-    ['-O', '-swift-version', '5', '-target', `${arch}-apple-macos13`, 'native/macos/sensor.swift', '-o', out],
-    { stdio: 'inherit' },
-  )
-
-if (process.env.FOCUSSR_UNIVERSAL) {
-  build('arm64', `${output}-arm64`)
-  build('x86_64', `${output}-x64`)
-  execFileSync('lipo', ['-create', `${output}-arm64`, `${output}-x64`, '-output', output], { stdio: 'inherit' })
-} else {
-  build(process.arch === 'arm64' ? 'arm64' : 'x86_64', output)
-}
+const arch = process.arch === 'arm64' ? 'arm64' : 'x86_64'
+execFileSync('swiftc', ['-O', '-swift-version', '5', '-target', `${arch}-apple-macos13`, 'native/macos/sensor.swift', '-o', output], {
+  stdio: 'inherit',
+})
 console.log('Built', output)

@@ -14,7 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        # Each Mac type builds on its own machine, so packaging reuses the checksum-verified download.
+        os: [macos-latest, macos-15-intel, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -25,14 +26,11 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-        env:
-          FOCUSSR_UNIVERSAL: '1'
-      # GitHub's download server sometimes times out while fetching Electron.
       - name: Package and upload
         shell: bash
         run: |
           for attempt in 1 2 3 4 5; do
-            npx electron-builder --publish always && exit 0
+            npx electron-builder --publish always -c.electronDist=node_modules/electron/dist && exit 0
             echo "Packaging failed on attempt $attempt. Retrying..."
             sleep $((attempt * 30))
           done
